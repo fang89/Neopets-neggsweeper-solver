@@ -8,17 +8,14 @@
   :root {
     --bg: #f5f5f7; --card: #fff; --ink: #1d1d1f; --mute: #6e6e73; --faint: #8e8e93;
     --line: rgba(0,0,0,.1); --field: rgba(118,118,128,.12); --accent: #0f766e;
-    --ok: #22c55e; --warn: #f97316; --bad: #ef4444; --band: #eceef1;
+    --ok: #22c55e; --warn: #f97316; --bad: #ef4444;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
+    :root {
       --bg: #0b0d10; --card: #16191d; --ink: #f2f4f7; --mute: #9aa1aa; --faint: #8b929b;
-      --line: rgba(255,255,255,.1); --field: rgba(140,150,160,.18); --accent: #2dd4bf; --band: #111418;
+      --line: rgba(255,255,255,.1); --field: rgba(140,150,160,.18); --accent: #2dd4bf;
     }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0b0d10; --card: #16191d; --ink: #f2f4f7; --mute: #9aa1aa; --faint: #8b929b;
-    --line: rgba(255,255,255,.1); --field: rgba(140,150,160,.18); --accent: #2dd4bf; --band: #111418;
+    :root a.btn { color: #0b1f3a; }
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -64,11 +61,11 @@
   .n1{color:#2563eb}.n2{color:#16a34a}.n3{color:#dc2626}.n4{color:#7c3aed}.n5{color:#b45309}.n6{color:#0891b2}.n7{color:#111827}.n8{color:#6b7280}
 
   /* ------------------------------------------------------------ set-up */
-  .setup { padding: 40px 0 44px; }
+  .setup { padding: 40px 0 56px; }
   .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--warn); margin: 0 0 4px; }
   h2 { font-size: 28px; margin: 0 0 22px; letter-spacing: -.015em; }
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: s; }
-  .step { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; position: relative;
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px;
           display: flex; flex-direction: column; gap: 12px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
   .step .num { width: 40px; height: 40px; border-radius: 50%; background: var(--warn); color: #fff; font-size: 20px; font-weight: 800;
                display: grid; place-items: center; box-shadow: 0 4px 12px color-mix(in srgb, var(--warn) 40%, transparent); }
@@ -83,13 +80,10 @@
   .mini { display: grid; grid-template-columns: repeat(5, 22px); gap: 3px; }
   .mini i { height: 22px; border-radius: 5px; background: var(--card); }
   .mini i.g { background: var(--ok); } .mini i.r { background: var(--bad); } .mini i.o { background: color-mix(in srgb, var(--mute) 35%, transparent); }
-  .arrow { font-size: 22px; color: var(--faint); }
   a.bm { display: inline-block; padding: 11px 18px; border-radius: 12px; font-weight: 700; font-size: 16px;
          text-decoration: none; color: #fff; background: var(--warn); cursor: grab;
          box-shadow: 0 4px 14px color-mix(in srgb, var(--warn) 45%, transparent); }
   a.btn { display: inline-block; padding: 10px 16px; border-radius: 12px; font-weight: 700; text-decoration: none; color: #fff; background: var(--accent); }
-  :root[data-theme="dark"] a.btn { color: #0b1f3a; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) a.btn { color: #0b1f3a; } }
   .tiny { color: var(--faint); font-size: 12.5px; margin-top: 8px; }
   #bmTip { color: var(--warn); font-weight: 600; }
 
@@ -102,37 +96,15 @@
   .sw.guess { background: var(--warn); animation: pulse 1.4s ease-in-out infinite; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--warn) 30%, transparent); } }
 
-  /* ------------------------------------------------------------ under the hood */
-  .hood { background: var(--band); border-top: 1px solid var(--line); padding: 44px 0 56px; }
-  .hood .eyebrow { color: var(--accent); }
-  .hood h2 { margin-bottom: 6px; }
-  .hood .lead { color: var(--mute); margin: 0 0 26px; max-width: 46em; }
-  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
-  .fact { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
-  .fact .big { font-size: 28px; font-weight: 800; letter-spacing: -.02em; color: var(--accent); line-height: 1.1; }
-  .fact p { margin: 6px 0 0; font-size: 13.5px; color: var(--mute); }
-  .fig { margin: 0 0 30px; }
-  .fig h3 { font-size: 19px; margin: 0 0 4px; letter-spacing: -.01em; }
-  .fig > p { margin: 0 0 12px; color: var(--mute); font-size: 14.5px; max-width: 48em; }
-  .scroll { overflow-x: auto; border-radius: 14px; }
-  .scroll img { display: block; width: 100%; min-width: 640px; height: auto; }
-  ol.how { margin: 14px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; counter-reset: h; }
-  ol.how li { counter-increment: h; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 14px 52px; position: relative; font-size: 14px; color: var(--mute); }
-  ol.how li::before { content: counter(h); position: absolute; left: 14px; top: 14px; width: 26px; height: 26px; border-radius: 8px;
-    background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); font-weight: 800; display: grid; place-items: center; font-size: 13px; }
-  ol.how b { color: var(--ink); display: block; margin-bottom: 2px; }
-
   @media (max-width: 860px) {
     .hero .wrap { grid-template-columns: 1fr; }
     .demo { justify-self: start; max-width: 100%; overflow-x: auto; }
     .steps, .key { grid-template-columns: 1fr; }
-    .facts, ol.how { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 520px) {
     .hero h1 { font-size: 34px; }
     .tile { width: 27px; height: 27px; font-size: 14px; }
     .tile.c::before { width: 14px; height: 18px; }
-    .facts, ol.how { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) { .tile.safe, .tile.trap, .sw.guess { animation-duration: 0s; animation-delay: 0s !important; animation-iteration-count: 1; } }
 </style>
@@ -192,44 +164,6 @@
   </div>
 </section>
 
-<section class="hood">
-  <div class="wrap">
-    <p class="eyebrow">Under the hood · for the curious</p>
-    <h2>How it works</h2>
-    <p class="lead">You don't need any of this to use it. It's here because the maths is the fun part.</p>
-
-    <div class="facts">
-      <div class="fact"><div class="big">40.7%</div><p>of Hard boards cleared in 10,000 test games, against 23.7% with the usual patterns</p></div>
-      <div class="fact"><div class="big">0</div><p>wrong calls in testing: a green negg is never a guess</p></div>
-      <div class="fact"><div class="big">2 ms</div><p>for the slowest board to solve, on your own computer</p></div>
-      <div class="fact"><div class="big">0 bytes</div><p>sent anywhere: the board is read and solved inside the game tab</p></div>
-    </div>
-
-    <div class="fig">
-      <h3>It counts, it doesn't guess</h3>
-      <p>Two numbers can often be satisfied in more than one way. The game's Remaining counter decides which way is more likely: a layout that uses fewer bad neggs leaves more of them for the rest of the board, and there are far more ways to place them there.</p>
-      <div class="scroll"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NDAgNDgwIiB3aWR0aD0iOTQwIiBoZWlnaHQ9IjQ4MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJXb3JrZWQgZXhhbXBsZTogd2h5IHRoZSBzYWZlc3QtbG9va2luZyBuZWdnIGlzIG5vdCA1MC81MCI+PHN0eWxlPgogLmJne2ZpbGw6I2ZmZmZmZjtzdHJva2U6I2QwZDdkZX0gLnR7ZmlsbDojMWYyMzI4fSAubXtmaWxsOiM1OTYzNmV9IC5ib3h7ZmlsbDojZjZmOGZhO3N0cm9rZTojZDBkN2RlfQogLmNvdntmaWxsOiNlNWU3ZWI7c3Ryb2tlOiM5Y2EzYWZ9IC5lZ2d7ZmlsbDojZmRlNjhhfSAubnVte2ZpbGw6I2ZmZmZmZjtzdHJva2U6I2QwZDdkZX0gLmxue3N0cm9rZTojOGM5NTlmfQogLmJhZHtmaWxsOiNlZjQ0NDR9IC5nb29ke2ZpbGw6IzIyYzU1ZX0gLmdie2ZpbGw6I2RhZmJlMTtzdHJva2U6IzJkYTQ0ZX0gLnJie2ZpbGw6I2ZmZWJlOTtzdHJva2U6I2NmMjIyZX0gLmFjY3tmaWxsOiMwZjc2NmV9IC5iYXIwe2ZpbGw6I2QwZDdkZX0KIEBtZWRpYSAocHJlZmVycy1jb2xvci1zY2hlbWU6IGRhcmspIHsKICAuYmd7ZmlsbDojMGQxMTE3O3N0cm9rZTojMzAzNjNkfSAudHtmaWxsOiNlNmVkZjN9IC5te2ZpbGw6IzkxOThhMX0gLmJveHtmaWxsOiMxNjFiMjI7c3Ryb2tlOiMzMDM2M2R9CiAgLmNvdntmaWxsOiMyMTI2MmQ7c3Ryb2tlOiM0ODRmNTh9IC5udW17ZmlsbDojMTYxYjIyO3N0cm9rZTojMzAzNjNkfSAubG57c3Ryb2tlOiM2ZTc2ODF9CiAgLmdie2ZpbGw6IzBmMmUxYjtzdHJva2U6IzNmYjk1MH0gLnJie2ZpbGw6IzNhMTIxMjtzdHJva2U6I2Y4NTE0OX0gLmFjY3tmaWxsOiMyZGQ0YmZ9IC5iYXIwe2ZpbGw6IzMwMzYzZH0KIH0KPC9zdHlsZT48cmVjdCBjbGFzcz0iYmciIHg9Ii41IiB5PSIuNSIgd2lkdGg9IjkzOSIgaGVpZ2h0PSI0NzkiIHJ4PSIxNCIvPjx0ZXh0IHg9IjI0IiB5PSIzOCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiIGNsYXNzPSJ0Ij5Db3VudGluZyBsYXlvdXRzLCB0aGVuIHdlaWdodGluZyB0aGVtPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSI2MiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMuNSIgY2xhc3M9Im0iPkEgMSB0b3VjaGVzIEEgYW5kIEI7IGFub3RoZXIgMSB0b3VjaGVzIEIgYW5kIEMuIFRoZSByZXN0IG9mIHRoZSBib2FyZCBoYXMgNTAgY292ZXJlZCBuZWdncyw8L3RleHQ+PHRleHQgeD0iMjQiIHk9IjgwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBjbGFzcz0ibSI+YW5kIHRoZSBSZW1haW5pbmcgY291bnRlciBzYXlzIDEwIGJhZCBuZWdncyBhcmUgbGVmdCBpbiBhbGwuPC90ZXh0PjxyZWN0IGNsYXNzPSJjb3YiIHg9IjYwIiB5PSIxMTQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjkiLz48ZWxsaXBzZSBjeD0iODYiIGN5PSIxNDIuMDgiIHJ4PSIxNC4wNDAwMDAwMDAwMDAwMDEiIHJ5PSIxNy42OCIgZmlsbD0iI2ZkZTY4YSIvPjxlbGxpcHNlIGN4PSI4MS4zMiIgY3k9IjEzNC44IiByeD0iMy4xMiIgcnk9IjUuMiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIuNTUiLz48dGV4dCB4PSI4NiIgeT0iMTg0IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkE8L3RleHQ+PHJlY3QgY2xhc3M9ImNvdiIgeD0iMTIyIiB5PSIxMTQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjkiLz48ZWxsaXBzZSBjeD0iMTQ4IiBjeT0iMTQyLjA4IiByeD0iMTQuMDQwMDAwMDAwMDAwMDAxIiByeT0iMTcuNjgiIGZpbGw9IiNmZGU2OGEiLz48ZWxsaXBzZSBjeD0iMTQzLjMyIiBjeT0iMTM0LjgiIHJ4PSIzLjEyIiByeT0iNS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjx0ZXh0IHg9IjE0OCIgeT0iMTg0IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkI8L3RleHQ+PHJlY3QgY2xhc3M9ImNvdiIgeD0iMTg0IiB5PSIxMTQiIHdpZHRoPSI1MiIgaGVpZ2h0PSI1MiIgcng9IjkiLz48ZWxsaXBzZSBjeD0iMjEwIiBjeT0iMTQyLjA4IiByeD0iMTQuMDQwMDAwMDAwMDAwMDAxIiByeT0iMTcuNjgiIGZpbGw9IiNmZGU2OGEiLz48ZWxsaXBzZSBjeD0iMjA1LjMyIiBjeT0iMTM0LjgiIHJ4PSIzLjEyIiByeT0iNS4yIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii41NSIvPjx0ZXh0IHg9IjIxMCIgeT0iMTg0IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkM8L3RleHQ+PHBhdGggY2xhc3M9ImxuIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik04NiAyMDAgdjEwIGg2MiB2LTEwIE0xNDggMjE4IHYxMCBoNjIgdi0xMCIvPjx0ZXh0IHg9IjExNyIgeT0iMjMwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iIzI1NjNlYiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTwvdGV4dD48dGV4dCB4PSIxNzkiIHk9IjI0NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiMyNTYzZWIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+PHRleHQgeD0iNjAiIHk9IjI4NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgY2xhc3M9Im0iPm9uZSBiYWQgbmVnZyBhbW9uZyBBLCBCPC90ZXh0Pjx0ZXh0IHg9IjYwIiB5PSIzMDQiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGNsYXNzPSJtIj5vbmUgYmFkIG5lZ2cgYW1vbmcgQiwgQzwvdGV4dD48cmVjdCBjbGFzcz0iYm94IiB4PSIyOTAiIHk9Ijk4IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIxNCIgcng9IjEyIi8+PHRleHQgeD0iMzA4IiB5PSIxMjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIiBjbGFzcz0idCI+TGF5b3V0IDE6IG9ubHkgQiBpcyBiYWQ8L3RleHQ+PHJlY3QgY2xhc3M9Imdvb2QiIHg9IjMwOCIgeT0iMTQyIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHJ4PSI4Ii8+PHRleHQgeD0iMzMwIiB5PSIxNzAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BPC90ZXh0PjxyZWN0IGNsYXNzPSJiYWQiIHg9IjM2MCIgeT0iMTQyIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHJ4PSI4Ii8+PHRleHQgeD0iMzgyIiB5PSIxNzAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5CPC90ZXh0PjxyZWN0IGNsYXNzPSJnb29kIiB4PSI0MTIiIHk9IjE0MiIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiByeD0iOCIvPjx0ZXh0IHg9IjQzNCIgeT0iMTcwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QzwvdGV4dD48dGV4dCB4PSIzMDgiIHk9IjIxNiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGNsYXNzPSJ0Ij51c2VzIDEgYmFkIG5lZ2csIHNvIDkgYXJlIGxlZnQ8L3RleHQ+PHRleHQgeD0iMzA4IiB5PSIyMzYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBjbGFzcz0idCI+dG8gaGlkZSBhbW9uZyB0aGUgb3RoZXIgNTA6PC90ZXh0Pjx0ZXh0IHg9IjMwOCIgeT0iMjY2IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiPkMoNTAsIDkpID0gMiw1MDUsNDMzLDcwMDwvdGV4dD48dGV4dCB4PSIzMDgiIHk9IjI5MiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgY2xhc3M9Im0iPndheXMgdG8gZmlsbCB0aGUgcmVzdDwvdGV4dD48cmVjdCBjbGFzcz0iYm94IiB4PSI2MTIiIHk9Ijk4IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIxNCIgcng9IjEyIi8+PHRleHQgeD0iNjMwIiB5PSIxMjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIiBjbGFzcz0idCI+TGF5b3V0IDI6IEEgYW5kIEMgYXJlIGJhZDwvdGV4dD48cmVjdCBjbGFzcz0iYmFkIiB4PSI2MzAiIHk9IjE0MiIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiByeD0iOCIvPjx0ZXh0IHg9IjY1MiIgeT0iMTcwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QTwvdGV4dD48cmVjdCBjbGFzcz0iZ29vZCIgeD0iNjgyIiB5PSIxNDIiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcng9IjgiLz48dGV4dCB4PSI3MDQiIHk9IjE3MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkI8L3RleHQ+PHJlY3QgY2xhc3M9ImJhZCIgeD0iNzM0IiB5PSIxNDIiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcng9IjgiLz48dGV4dCB4PSI3NTYiIHk9IjE3MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkM8L3RleHQ+PHRleHQgeD0iNjMwIiB5PSIyMTYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBjbGFzcz0idCI+dXNlcyAyIGJhZCBuZWdncywgc28gOCBhcmUgbGVmdDwvdGV4dD48dGV4dCB4PSI2MzAiIHk9IjIzNiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGNsYXNzPSJ0Ij50byBoaWRlIGFtb25nIHRoZSBvdGhlciA1MDo8L3RleHQ+PHRleHQgeD0iNjMwIiB5PSIyNjYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIiBjbGFzcz0idCI+Qyg1MCwgOCkgPSA1MzYsODc4LDY1MDwvdGV4dD48dGV4dCB4PSI2MzAiIHk9IjI5MiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgY2xhc3M9Im0iPndheXMgdG8gZmlsbCB0aGUgcmVzdDwvdGV4dD48cmVjdCBjbGFzcz0iZ2IiIHg9IjI0IiB5PSIzMzQiIHdpZHRoPSI4OTIiIGhlaWdodD0iMTIyIiByeD0iMTIiLz48dGV4dCB4PSI0NCIgeT0iMzY0IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiPlJlc3VsdDwvdGV4dD48dGV4dCB4PSI0NCIgeT0iMzk0IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgY2xhc3M9InQiPkIgaXMgYmFkIDgyJSBvZiB0aGUgdGltZSwgQSBhbmQgQyAxOCUgZWFjaCwgZXZlcnkgb3RoZXIgY292ZXJlZCBuZWdnIDE4JS48L3RleHQ+PHRleHQgeD0iNDQiIHk9IjQyMCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGNsYXNzPSJtIj5Db3VudGluZyB0aGUgdHdvIGxheW91dHMgYXMgZXF1YWwgd291bGQgc2F5IEIgaXMgNTAvNTAuIEl0IGlzbid0OiB0aGUgbGF5b3V0IHRoYXQgc3BlbmRzIGZld2VyIGJhZCBuZWdncyBsZWF2ZXM8L3RleHQ+PHRleHQgeD0iNDQiIHk9IjQ0MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGNsYXNzPSJtIj5tb3JlIG9mIHRoZW0gZm9yIHRoZSByZXN0IG9mIHRoZSBib2FyZCwgYW5kIHRoZXJlIGFyZSA0LjfDlyBhcyBtYW55IHdheXMgdG8gcGxhY2UgdGhlbSB0aGVyZS48L3RleHQ+PC9zdmc+" alt="Worked example: two layouts fit the numbers, but one is 4.7 times more likely" width="940" height="480"></div>
-      <ol class="how">
-        <li><b>Split into groups</b>Covered neggs next to a number are split into groups that share no number, so each can be worked out on its own.</li>
-        <li><b>List every layout</b>Every way of hiding bad neggs in a group that fits all its numbers, tallied by how many bad neggs it uses.</li>
-        <li><b>Weight by Remaining</b>Each layout counts as many times as there are ways to place the leftover bad neggs on the rest of the board.</li>
-        <li><b>Call only certainties</b>Green means safe in every layout, red means bad in every layout. Otherwise orange marks the lowest chance.</li>
-      </ol>
-    </div>
-
-    <div class="fig">
-      <h3>How well it plays</h3>
-      <p>Every player below finds all the sure things. The difference is how they guess when they have to, and Hard makes you guess about three times a game.</p>
-      <div class="scroll"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NDAgMzE4IiB3aWR0aD0iOTQwIiBoZWlnaHQ9IjMxOCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJXaW4gcmF0ZSBvbiBIYXJkOiBUaGlzIHNvbHZlciA0MC43JSwgU3VyZS10aGluZyBydWxlcywgY29ybmVyIGd1ZXNzIDIzLjclLCBTdXJlLXRoaW5nIHJ1bGVzLCByYW5kb20gZ3Vlc3MgMTYuNCUiPjxzdHlsZT4KIC5iZ3tmaWxsOiNmZmZmZmY7c3Ryb2tlOiNkMGQ3ZGV9IC50e2ZpbGw6IzFmMjMyOH0gLm17ZmlsbDojNTk2MzZlfSAuYm94e2ZpbGw6I2Y2ZjhmYTtzdHJva2U6I2QwZDdkZX0KIC5jb3Z7ZmlsbDojZTVlN2ViO3N0cm9rZTojOWNhM2FmfSAuZWdne2ZpbGw6I2ZkZTY4YX0gLm51bXtmaWxsOiNmZmZmZmY7c3Ryb2tlOiNkMGQ3ZGV9IC5sbntzdHJva2U6IzhjOTU5Zn0KIC5iYWR7ZmlsbDojZWY0NDQ0fSAuZ29vZHtmaWxsOiMyMmM1NWV9IC5nYntmaWxsOiNkYWZiZTE7c3Ryb2tlOiMyZGE0NGV9IC5yYntmaWxsOiNmZmViZTk7c3Ryb2tlOiNjZjIyMmV9IC5hY2N7ZmlsbDojMGY3NjZlfSAuYmFyMHtmaWxsOiNkMGQ3ZGV9CiBAbWVkaWEgKHByZWZlcnMtY29sb3Itc2NoZW1lOiBkYXJrKSB7CiAgLmJne2ZpbGw6IzBkMTExNztzdHJva2U6IzMwMzYzZH0gLnR7ZmlsbDojZTZlZGYzfSAubXtmaWxsOiM5MTk4YTF9IC5ib3h7ZmlsbDojMTYxYjIyO3N0cm9rZTojMzAzNjNkfQogIC5jb3Z7ZmlsbDojMjEyNjJkO3N0cm9rZTojNDg0ZjU4fSAubnVte2ZpbGw6IzE2MWIyMjtzdHJva2U6IzMwMzYzZH0gLmxue3N0cm9rZTojNmU3NjgxfQogIC5nYntmaWxsOiMwZjJlMWI7c3Ryb2tlOiMzZmI5NTB9IC5yYntmaWxsOiMzYTEyMTI7c3Ryb2tlOiNmODUxNDl9IC5hY2N7ZmlsbDojMmRkNGJmfSAuYmFyMHtmaWxsOiMzMDM2M2R9CiB9Cjwvc3R5bGU+PHJlY3QgY2xhc3M9ImJnIiB4PSIuNSIgeT0iLjUiIHdpZHRoPSI5MzkiIGhlaWdodD0iMzE3IiByeD0iMTQiLz48dGV4dCB4PSIyNCIgeT0iMzgiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNzAwIiBjbGFzcz0idCI+SG93IG9mdGVuIGVhY2ggcGxheWVyIGNsZWFycyBhIEhhcmQgYm9hcmQ8L3RleHQ+PHRleHQgeD0iMjQiIHk9IjYyIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMy41IiBjbGFzcz0ibSI+MTAsMDAwIHJhbmRvbSAxNCDDlyAxNCBib2FyZHMgd2l0aCA0MCBiYWQgbmVnZ3MuIEV2ZXJ5IHBsYXllciBnZXRzIHRoZSBzYW1lIGJvYXJkcyBhbmQgbmV2ZXIgY2xpY2tzIGEgbmVnZyBpdCBrbm93cyBpcyBiYWQuPC90ZXh0PjxsaW5lIGNsYXNzPSJsbiIgeDE9IjMwMCIgeDI9IjMwMCIgeTE9Ijg0IiB5Mj0iMjUyIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIuMyIvPjx0ZXh0IHg9IjMwMCIgeT0iMjcwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgY2xhc3M9Im0iIHRleHQtYW5jaG9yPSJtaWRkbGUiPjAlPC90ZXh0PjxsaW5lIGNsYXNzPSJsbiIgeDE9IjQwOCIgeDI9IjQwOCIgeTE9Ijg0IiB5Mj0iMjUyIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIuMyIvPjx0ZXh0IHg9IjQwOCIgeT0iMjcwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgY2xhc3M9Im0iIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwJTwvdGV4dD48bGluZSBjbGFzcz0ibG4iIHgxPSI1MTYiIHgyPSI1MTYiIHkxPSI4NCIgeTI9IjI1MiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iLjMiLz48dGV4dCB4PSI1MTYiIHk9IjI3MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGNsYXNzPSJtIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yMCU8L3RleHQ+PGxpbmUgY2xhc3M9ImxuIiB4MT0iNjI0IiB4Mj0iNjI0IiB5MT0iODQiIHkyPSIyNTIiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLW9wYWNpdHk9Ii4zIi8+PHRleHQgeD0iNjI0IiB5PSIyNzAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBjbGFzcz0ibSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzAlPC90ZXh0PjxsaW5lIGNsYXNzPSJsbiIgeDE9IjczMiIgeDI9IjczMiIgeTE9Ijg0IiB5Mj0iMjUyIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIuMyIvPjx0ZXh0IHg9IjczMiIgeT0iMjcwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgY2xhc3M9Im0iIHRleHQtYW5jaG9yPSJtaWRkbGUiPjQwJTwvdGV4dD48bGluZSBjbGFzcz0ibG4iIHgxPSI4NDAiIHgyPSI4NDAiIHkxPSI4NCIgeTI9IjI1MiIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iLjMiLz48dGV4dCB4PSI4NDAiIHk9IjI3MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGNsYXNzPSJtIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj41MCU8L3RleHQ+PHRleHQgeD0iMjQiIHk9IjExMSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGNsYXNzPSJ0Ij5UaGlzIHNvbHZlcjwvdGV4dD48dGV4dCB4PSIyNCIgeT0iMTMwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgY2xhc3M9Im0iPmV4YWN0IG9kZHMsIFJlbWFpbmluZyBjb3VudGVyIGluY2x1ZGVkPC90ZXh0PjxyZWN0IGNsYXNzPSJhY2MiIHg9IjMwMCIgeT0iMTAwIiB3aWR0aD0iNDM5LjU2IiBoZWlnaHQ9IjI2IiByeD0iNCIvPjx0ZXh0IHg9Ijc0OS41NiIgeT0iMTE5IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiPjQwLjclPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxNjciIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNDAwIiBjbGFzcz0idCI+U3VyZS10aGluZyBydWxlcywgY29ybmVyIGd1ZXNzPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxODYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBjbGFzcz0ibSI+dGhlIHVzdWFsIHBhdHRlcm5zLCBubyBvZGRzPC90ZXh0PjxyZWN0IGNsYXNzPSJiYXIwIiB4PSIzMDAiIHk9IjE1NiIgd2lkdGg9IjI1NS45NiIgaGVpZ2h0PSIyNiIgcng9IjQiLz48dGV4dCB4PSI1NjUuOTYiIHk9IjE3NSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI3MDAiIGNsYXNzPSJ0Ij4yMy43JTwvdGV4dD48dGV4dCB4PSIyNCIgeT0iMjIzIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgY2xhc3M9InQiPlN1cmUtdGhpbmcgcnVsZXMsIHJhbmRvbSBndWVzczwvdGV4dD48dGV4dCB4PSIyNCIgeT0iMjQyIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgY2xhc3M9Im0iPm5vIG9kZHMsIG5vIGNvcm5lciBoYWJpdDwvdGV4dD48cmVjdCBjbGFzcz0iYmFyMCIgeD0iMzAwIiB5PSIyMTIiIHdpZHRoPSIxNzcuMTIiIGhlaWdodD0iMjYiIHJ4PSI0Ii8+PHRleHQgeD0iNDg3LjEyIiB5PSIyMzEiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiBjbGFzcz0idCI+MTYuNCU8L3RleHQ+PHRleHQgeD0iMjQiIHk9IjI5NiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIuNSIgY2xhc3M9Im0iPkFib3V0IDEgZ2FtZSBpbiA1IGlzIGxvc3Qgb24gdGhlIHZlcnkgZmlyc3QgY2xpY2ssIGJlZm9yZSB0aGVyZSBpcyBhIHNpbmdsZSBudW1iZXIgdG8gcmVhZC4gTm8gcGxheWVyIGNhbiBhdm9pZCB0aGF0LjwvdGV4dD48L3N2Zz4=" alt="Win rate on 10,000 Hard boards: this solver 40.7%, sure-thing rules with a corner guess 23.7%, with a random guess 16.4%" width="940" height="318"></div>
-    </div>
-
-    <div class="fig">
-      <h3>Why it wraps the game in a frame</h3>
-      <p>Every negg click reloads the game page, which would wipe out an ordinary bookmark. So the helper shows the game in a full-page frame from the same site and stays in the page around it.</p>
-      <div class="scroll"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NDAgMzgwIiB3aWR0aD0iOTQwIiBoZWlnaHQ9IjM4MCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJXaGF0IHJ1bnMgd2hlcmU6IGV2ZXJ5dGhpbmcgc3RheXMgaW4gdGhlIGdhbWUgdGFiIj48c3R5bGU+CiAuYmd7ZmlsbDojZmZmZmZmO3N0cm9rZTojZDBkN2RlfSAudHtmaWxsOiMxZjIzMjh9IC5te2ZpbGw6IzU5NjM2ZX0gLmJveHtmaWxsOiNmNmY4ZmE7c3Ryb2tlOiNkMGQ3ZGV9CiAuY292e2ZpbGw6I2U1ZTdlYjtzdHJva2U6IzljYTNhZn0gLmVnZ3tmaWxsOiNmZGU2OGF9IC5udW17ZmlsbDojZmZmZmZmO3N0cm9rZTojZDBkN2RlfSAubG57c3Ryb2tlOiM4Yzk1OWZ9CiAuYmFke2ZpbGw6I2VmNDQ0NH0gLmdvb2R7ZmlsbDojMjJjNTVlfSAuZ2J7ZmlsbDojZGFmYmUxO3N0cm9rZTojMmRhNDRlfSAucmJ7ZmlsbDojZmZlYmU5O3N0cm9rZTojY2YyMjJlfSAuYWNje2ZpbGw6IzBmNzY2ZX0gLmJhcjB7ZmlsbDojZDBkN2RlfQogQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewogIC5iZ3tmaWxsOiMwZDExMTc7c3Ryb2tlOiMzMDM2M2R9IC50e2ZpbGw6I2U2ZWRmM30gLm17ZmlsbDojOTE5OGExfSAuYm94e2ZpbGw6IzE2MWIyMjtzdHJva2U6IzMwMzYzZH0KICAuY292e2ZpbGw6IzIxMjYyZDtzdHJva2U6IzQ4NGY1OH0gLm51bXtmaWxsOiMxNjFiMjI7c3Ryb2tlOiMzMDM2M2R9IC5sbntzdHJva2U6IzZlNzY4MX0KICAuZ2J7ZmlsbDojMGYyZTFiO3N0cm9rZTojM2ZiOTUwfSAucmJ7ZmlsbDojM2ExMjEyO3N0cm9rZTojZjg1MTQ5fSAuYWNje2ZpbGw6IzJkZDRiZn0gLmJhcjB7ZmlsbDojMzAzNjNkfQogfQo8L3N0eWxlPjxyZWN0IGNsYXNzPSJiZyIgeD0iLjUiIHk9Ii41IiB3aWR0aD0iOTM5IiBoZWlnaHQ9IjM3OSIgcng9IjE0Ii8+PHRleHQgeD0iMjQiIHk9IjM4IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiPldoYXQgcnVucyB3aGVyZTwvdGV4dD48dGV4dCB4PSIyNCIgeT0iNjIiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzLjUiIGNsYXNzPSJtIj5PbmUgY2xpY2sgb24gdGhlIGJvb2ttYXJrIHR1cm5zIHRoZSBnYW1lIHRhYiBpbnRvIHRoaXMuIE5vdGhpbmcgaXMgc2VudCBhbnl3aGVyZTogdGhlIGJvYXJkIGlzIHJlYWQgYW5kIHNvbHZlZCBpbiB0aGUgdGFiLjwvdGV4dD48cmVjdCBjbGFzcz0iYm94IiB4PSIyNCIgeT0iODQiIHdpZHRoPSI4OTIiIGhlaWdodD0iMjcyIiByeD0iMTQiLz48dGV4dCB4PSI0NCIgeT0iMTEyIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiPkdhbWUgdGFiPC90ZXh0Pjx0ZXh0IHg9IjEyMiIgeT0iMTEyIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBjbGFzcz0ibSI+wrcgbmVvcGV0cy5jb20sIGFmdGVyIG9uZSBjbGljayBvbiB0aGUgYm9va21hcms8L3RleHQ+PHJlY3QgY2xhc3M9ImJnIiB4PSI0NCIgeT0iMTI2IiB3aWR0aD0iODUyIiBoZWlnaHQ9IjU4IiByeD0iMTAiLz48cmVjdCBjbGFzcz0iYWNjIiB4PSI0NCIgeT0iMTI2IiB3aWR0aD0iNiIgaGVpZ2h0PSI1OCIgcng9IjMiLz48dGV4dCB4PSI2NCIgeT0iMTUwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgY2xhc3M9InQiPkhlbHBlciAodGhlIGJvb2ttYXJrKTwvdGV4dD48dGV4dCB4PSI2NCIgeT0iMTcwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMi41IiBjbGFzcz0ibSI+c3RheXMgaW4gdGhlIG91dGVyIHBhZ2UsIHNvIGl0IHN1cnZpdmVzIGV2ZXJ5IHJlbG9hZCBvZiB0aGUgZ2FtZSDCtyBkcmF3cyB0aGUgY29ybmVyIGNhcmQgYW5kIHRoZSBjb2xvdXJzPC90ZXh0PjxyZWN0IGNsYXNzPSJiZyIgeD0iNDQiIHk9IjE5OCIgd2lkdGg9IjU2MCIgaGVpZ2h0PSIxNDAiIHJ4PSIxMCIvPjx0ZXh0IHg9IjY0IiB5PSIyMjQiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiBjbGFzcz0idCI+VGhlIGdhbWUsIGluIGEgZnVsbC1wYWdlIGZyYW1lPC90ZXh0Pjx0ZXh0IHg9IjY0IiB5PSIyNDQiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyLjUiIGNsYXNzPSJtIj5zYW1lIHNpdGUsIHNvIHRoZSBoZWxwZXIgY2FuIHJlYWQgaXQgwrcgZXZlcnkgbmVnZyBjbGljayByZWxvYWRzIG9ubHkgdGhlIGZyYW1lPC90ZXh0PjxyZWN0IGNsYXNzPSJudW0iIHg9IjY0IiB5PSIyNTgiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyMiIgcng9IjUiLz48dGV4dCB4PSI3OCIgeT0iMjc0IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iIzI1NjNlYiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MTwvdGV4dD48cmVjdCBjbGFzcz0iY292IiB4PSI5NiIgeT0iMjU4IiB3aWR0aD0iMjgiIGhlaWdodD0iMjIiIHJ4PSI1Ii8+PHJlY3QgY2xhc3M9ImNvdiIgeD0iMTI4IiB5PSIyNTgiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyMiIgcng9IjUiLz48cmVjdCBjbGFzcz0ibnVtIiB4PSIxNjAiIHk9IjI1OCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjIyIiByeD0iNSIvPjx0ZXh0IHg9IjE3NCIgeT0iMjc0IiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iIzE2YTM0YSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD48cmVjdCBjbGFzcz0ibnVtIiB4PSI2NCIgeT0iMjg0IiB3aWR0aD0iMjgiIGhlaWdodD0iMjIiIHJ4PSI1Ii8+PHRleHQgeD0iNzgiIHk9IjMwMCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiMyNTYzZWIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+PHJlY3QgY2xhc3M9Im51bSIgeD0iOTYiIHk9IjI4NCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjIyIiByeD0iNSIvPjx0ZXh0IHg9IjExMCIgeT0iMzAwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsJ1NlZ29lIFVJJyxIZWx2ZXRpY2EsQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iIzE2YTM0YSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD48cmVjdCBjbGFzcz0iY292IiB4PSIxMjgiIHk9IjI4NCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjIyIiByeD0iNSIvPjxyZWN0IGNsYXNzPSJjb3YiIHg9IjE2MCIgeT0iMjg0IiB3aWR0aD0iMjgiIGhlaWdodD0iMjIiIHJ4PSI1Ii8+PHJlY3QgY2xhc3M9Im51bSIgeD0iNjQiIHk9IjMxMCIgd2lkdGg9IjI4IiBoZWlnaHQ9IjIyIiByeD0iNSIvPjxyZWN0IGNsYXNzPSJudW0iIHg9Ijk2IiB5PSIzMTAiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyMiIgcng9IjUiLz48dGV4dCB4PSIxMTAiIHk9IjMyNiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiMyNTYzZWIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+PHJlY3QgY2xhc3M9Imdvb2QiIHg9IjEyOCIgeT0iMzEwIiB3aWR0aD0iMjgiIGhlaWdodD0iMjIiIHJ4PSI1Ii8+PHJlY3QgY2xhc3M9ImJhZCIgeD0iMTYwIiB5PSIzMTAiIHdpZHRoPSIyOCIgaGVpZ2h0PSIyMiIgcng9IjUiLz48dGV4dCB4PSIyMTAiIHk9IjI4MCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGNsYXNzPSJ0Ij4xLiBmcmFtZSBsb2FkczwvdGV4dD48dGV4dCB4PSIyMTAiIHk9IjMwMiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGNsYXNzPSJ0Ij4yLiByZWFkIHRoZSBib2FyZCBmcm9tIHRoZSBwYWdlIEhUTUw8L3RleHQ+PHRleHQgeD0iMjEwIiB5PSIzMjQiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBjbGFzcz0idCI+My4gc29sdmUgKGEgZmV3IG1zKSBhbmQgY29sb3VyIHRoZSBuZWdnczwvdGV4dD48cmVjdCBjbGFzcz0icmIiIHg9IjYyMCIgeT0iMTk4IiB3aWR0aD0iMjc2IiBoZWlnaHQ9IjE0MCIgcng9IjEwIi8+PHRleHQgeD0iNjQwIiB5PSIyMjQiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iNzAwIiBjbGFzcz0idCI+SXQgbmV2ZXI8L3RleHQ+PHRleHQgeD0iNjQwIiB5PSIyNTIiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBjbGFzcz0idCI+4pyVICBjbGlja3MgYSBuZWdnIGZvciB5b3U8L3RleHQ+PHRleHQgeD0iNjQwIiB5PSIyNzYiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBjbGFzcz0idCI+4pyVICBzZW5kcyB0aGUgYm9hcmQgYW55d2hlcmU8L3RleHQ+PHRleHQgeD0iNjQwIiB5PSIzMDAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLEJsaW5rTWFjU3lzdGVtRm9udCwnU2Vnb2UgVUknLEhlbHZldGljYSxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBjbGFzcz0idCI+4pyVICBjaGFuZ2VzIHRoZSBnYW1lIGl0c2VsZjwvdGV4dD48dGV4dCB4PSI2NDAiIHk9IjMyNiIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sQmxpbmtNYWNTeXN0ZW1Gb250LCdTZWdvZSBVSScsSGVsdmV0aWNhLEFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGNsYXNzPSJtIj7DlyBvbiB0aGUgY2FyZCBwdXRzIHRoZSBwYWdlIGJhY2s8L3RleHQ+PC9zdmc+" alt="The bookmark wraps the game in a same-site frame, reads each board and colours the neggs; nothing leaves the tab" width="940" height="380"></div>
-    </div>
-  </div>
-</section>
 
 <script type="text/plain" id="bm-src">(() => {
 'use strict';
@@ -251,7 +185,7 @@ const nums = Array.from(table.querySelectorAll('tr[bgcolor="silver"] tr[bgcolor=
 b => parseInt(b.textContent.replace(/[^0-9]/g, ''), 10));
 const rows = Array.from(table.querySelectorAll(':scope > tbody > tr[bgcolor="white"]'));
 const grid = [], cells = [];
-let live = 0, flagged = 0;
+let live = 0;
 for (const tr of rows) {
 const g = [], c = [];
 for (const td of tr.querySelectorAll(':scope > td')) {
@@ -261,7 +195,7 @@ let v = '?';
 if (img) {
 const src = img.getAttribute('src') || '';
 const click = /do_move/.test(img.getAttribute('onclick') || '');
-if (click) { live++; if (!/\/x\/gn\.gif/.test(src)) flagged++; v = 'C'; }
+if (click) { live++; v = 'C'; }
 else if (/badnegg/.test(src)) v = 'T';
 else if (/\/x\/gn\.gif/.test(src)) v = 'C';
 } else if (font) {
@@ -275,7 +209,7 @@ if (g.length) { grid.push(g); cells.push(c); }
 if (!grid.length) return { state: 'none' };
 return {
 state: lost ? 'lost' : live ? 'playing' : 'over',
-grid, cells, table, flagged,
+grid, cells,
 remaining: Number.isFinite(nums[0]) ? nums[0] : null,
 jackpot: Number.isFinite(nums[1]) ? nums[1] : null,
 };
@@ -360,7 +294,7 @@ const key = (r, c) => r * C + c;
 const covered = [];
 for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) if (grid[r][c] === 'C') covered.push([r, c]);
 const prob = new Map();
-const res = { prob, safe: [], traps: [], guess: null, exact: false, trapsLeft: null, covered: covered.length };
+const res = { prob, safe: [], traps: [], guess: null, exact: false, trapsLeft: null };
 if (!covered.length) return res;
 const shownTraps = grid.flat().filter(v => v === 'T').length;
 const total = remaining == null ? null : covered.length - remaining;
@@ -537,7 +471,8 @@ return say('warn', 'Left the game', 'Go back to NeggSweeper: the helper starts a
 }
 const res = N.solve(pz.grid, pz.remaining);
 mark(d, pz, res);
-const meta = `${pz.remaining} safe neggs left · ${res.trapsLeft} bad · jackpot ${pz.jackpot}`;
+const meta = [pz.remaining != null && `${pz.remaining} safe neggs left · ${res.trapsLeft} bad`,
+pz.jackpot != null && `jackpot ${pz.jackpot}`].filter(Boolean).join(' · ');
 $('.o').textContent = showOdds ? 'Hide the odds' : 'Show the odds on every negg';
 const untouched = pz.grid.every(r => r.every(v => v === 'C'));
 if (res.safe.length)
@@ -612,7 +547,7 @@ window.__nsFollow = show;
       b => parseInt(b.textContent.replace(/[^0-9]/g, ''), 10));
     const rows = Array.from(table.querySelectorAll(':scope > tbody > tr[bgcolor="white"]'));
     const grid = [], cells = [];
-    let live = 0, flagged = 0;
+    let live = 0;
     for (const tr of rows) {
       const g = [], c = [];
       for (const td of tr.querySelectorAll(':scope > td')) {
@@ -622,7 +557,7 @@ window.__nsFollow = show;
         if (img) {
           const src = img.getAttribute('src') || '';
           const click = /do_move/.test(img.getAttribute('onclick') || '');
-          if (click) { live++; if (!/\/x\/gn\.gif/.test(src)) flagged++; v = 'C'; }
+          if (click) { live++; v = 'C'; }
           else if (/badnegg/.test(src)) v = 'T';
           else if (/\/x\/gn\.gif/.test(src)) v = 'C';
         } else if (font) {
@@ -636,7 +571,7 @@ window.__nsFollow = show;
     if (!grid.length) return { state: 'none' };
     return {
       state: lost ? 'lost' : live ? 'playing' : 'over',
-      grid, cells, table, flagged,
+      grid, cells,
       remaining: Number.isFinite(nums[0]) ? nums[0] : null,
       jackpot: Number.isFinite(nums[1]) ? nums[1] : null,
     };
@@ -740,7 +675,7 @@ window.__nsFollow = show;
     const covered = [];
     for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) if (grid[r][c] === 'C') covered.push([r, c]);
     const prob = new Map();
-    const res = { prob, safe: [], traps: [], guess: null, exact: false, trapsLeft: null, covered: covered.length };
+    const res = { prob, safe: [], traps: [], guess: null, exact: false, trapsLeft: null };
     if (!covered.length) return res;
     const shownTraps = grid.flat().filter(v => v === 'T').length;
     const total = remaining == null ? null : covered.length - remaining;
@@ -879,8 +814,7 @@ window.__nsFollow = show;
   // ------------------------------------------------------------ demo board
   // A real position, solved here by the same code the bookmark carries.
   // It is a picture, not a game: the tiles do nothing when clicked.
-  const demo = {"grid":[["C","C","C","C","C","C",1,0,0,0],["C","C","C","C","C","C",1,0,1,1],["C","C","C",3,3,2,1,0,1,"C"],["C","C","C",1,0,0,0,0,1,"C"],["C","C","C",2,1,0,0,1,1,"C"],["C","C","C","C",2,0,0,2,"C","C"],["C","C","C","C",2,0,0,2,"C","C"]],"remaining":22};
-  const { grid, remaining } = demo, R = grid.length, C = grid[0].length;
+  const { grid, remaining } = {"grid":[["C","C","C","C","C","C",1,0,0,0],["C","C","C","C","C","C",1,0,1,1],["C","C","C",3,3,2,1,0,1,"C"],["C","C","C",1,0,0,0,0,1,"C"],["C","C","C",2,1,0,0,1,1,"C"],["C","C","C","C",2,0,0,2,"C","C"],["C","C","C","C",2,0,0,2,"C","C"]],"remaining":22}, R = grid.length, C = grid[0].length;
   const res = Negg.solve(grid, remaining);
   const board = $('board');
   board.style.gridTemplateColumns = `repeat(${C}, auto)`;
@@ -893,10 +827,12 @@ window.__nsFollow = show;
       t.classList.add('c');
       if (p === 0) t.classList.add('safe'); else if (p === 1) t.classList.add('trap');
       if (p === 0 || p === 1) t.style.setProperty('--d', (0.4 + 0.12 * order++) + 's');
-      const s = document.createElement('span');
-      s.className = 'p';
-      s.textContent = Math.round(p * 100) + '%';
-      t.appendChild(s);
+      else {
+        const s = document.createElement('span');
+        s.className = 'p';
+        s.textContent = Math.round(p * 100) + '%';
+        t.appendChild(s);
+      }
     } else if (v) { t.textContent = v; t.classList.add('n' + v); }
     board.appendChild(t);
   }
