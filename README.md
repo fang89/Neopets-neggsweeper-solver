@@ -98,7 +98,7 @@ safe or a safe negg bad, and the slowest board took 2 ms to solve.
 |---|---|---|
 | **Solver**: board reader, groups, layout counting, odds | **JavaScript**, no libraries | ~280 lines |
 | **Bookmark**: frame, corner card, colours | JavaScript bookmarklet | ~140 lines |
-| **Solver page**: set-up steps, colour key | HTML + CSS + a little JavaScript | ~120 lines |
+| **Solver page**: set-up steps, live demo board, how it works | HTML + CSS + JavaScript | ~280 lines |
 | **Build**: inlines everything into one page | Bash + Python | |
 | **Tests**: real saved boards, 1,000 simulated games, the bookmark on a stand-in game page (never the real site) | Node + Python + Playwright | ~340 lines |
 
@@ -117,4 +117,4 @@ hasn't happened in testing), the solver falls back to the sure-thing rules and s
 card instead of guessing.
 
 **One file.** The whole solver is inside the bookmark itself, so it runs on the game page with
-nothing to load. The solver page is a single ~25 KB HTML file.
+nothing to load. The solver page is a single ~75 KB HTML file, pictures included.
