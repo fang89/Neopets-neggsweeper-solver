@@ -89,7 +89,12 @@
   a.bm { display: inline-block; padding: 11px 18px; border-radius: 12px; font-weight: 700; font-size: 16px;
          text-decoration: none; color: #fff; background: var(--warn); cursor: grab;
          box-shadow: 0 4px 14px color-mix(in srgb, var(--warn) 45%, transparent); }
-  a.btn { display: inline-block; padding: 10px 16px; border-radius: 12px; font-weight: 700; text-decoration: none; color: #fff; background: var(--accent); }
+  a.btn { display: inline-block; padding: 11px 18px; border-radius: 12px; font-weight: 700; font-size: 16px; line-height: 1.4; text-decoration: none; color: #fff; background: var(--accent); }
+  /* the two set-up buttons line up: the tip that appears on a click hangs below without moving them */
+  .step .act { position: relative; }
+  a.bm { line-height: 1.4; }
+  #bmTip { position: absolute; left: 0; right: 0; top: 100%; margin-top: 6px; }
+  #bmTip:empty { display: none; }
   .tiny { color: var(--faint); font-size: 12.5px; margin-top: 8px; }
   #bmTip { color: var(--warn); font-weight: 600; }
 
@@ -103,9 +108,9 @@
   @keyframes pulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--warn) 30%, transparent); } }
 
   @media (max-width: 860px) {
-    .hero .wrap { grid-template-columns: 1fr; }
+    .hero .wrap { grid-template-columns: minmax(0, 1fr); }
     .demo { justify-self: start; max-width: 100%; overflow-x: auto; }
-    .steps, .key { grid-template-columns: 1fr; }
+    .steps, .key { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 520px) {
     .hero h1 { font-size: 34px; }
@@ -140,10 +145,9 @@
         <div class="num">1</div>
         <h3>Add the bookmark</h3>
         <div class="pic"><div class="bar"><i></i><i></i><b>NeggSweeper Helper</b><i></i></div></div>
-        <p>Drag the orange button up to your bookmarks bar (favorites bar in Edge).</p>
+        <p>Drag the orange button up to your bookmarks bar (favorites bar in Edge). No bar? Press <kbd class="k-bar">Ctrl+Shift+B</kbd>.</p>
         <div class="act">
           <a class="bm" id="bm" href="#" draggable="true">NeggSweeper Helper</a>
-          <div class="tiny">No bar? Press <kbd class="k-bar">Ctrl+Shift+B</kbd>.</div>
           <div class="tiny" id="bmTip"></div>
         </div>
       </div>
