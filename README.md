@@ -139,8 +139,8 @@ nothing to load. The solver page is a single ~45 KB HTML file.
 
 My other Neopets tools. All free; none of them plays for you or sends a score.
 
-| Tool | What it does | |
+| Tool | What it does | Links |
 |---|---|:-:|
-| **Sewage Surfer Solver** | Shows where each pipe goes, one move at a time, and when to discard, press Start Flow or restart. | <a href="https://fang89.github.io/Neopets-sewagesurfer-solver/">Link to solver</a><br><a href="https://github.com/fang89/Neopets-sewagesurfer-solver">Github link</a> |
-| **ShapeShifter Solver** | Paste the board, get the answer, see where each piece goes. | <a href="https://fang89.github.io/Neopets-shapeshifter-solver/">Link to solver</a><br><a href="https://github.com/fang89/Neopets-shapeshifter-solver">Github link</a> |
-| **Grand Theft Ummagine Guide** | A drawn map and key-tap route for every level. | <a href="https://github.com/fang89/grand-theft-ummagine-guide">Github link</a> |
+| **Sewage Surfer Solver** | Shows where each pipe goes, one move at a time, and when to discard, press Start Flow or restart. | <a href="https://fang89.github.io/Neopets-sewagesurfer-solver/">Link&nbsp;to&nbsp;solver</a><br><a href="https://github.com/fang89/Neopets-sewagesurfer-solver">Github&nbsp;link</a> |
+| **ShapeShifter Solver** | Paste the board, get the answer, see where each piece goes. | <a href="https://fang89.github.io/Neopets-shapeshifter-solver/">Link&nbsp;to&nbsp;solver</a><br><a href="https://github.com/fang89/Neopets-shapeshifter-solver">Github&nbsp;link</a> |
+| **Grand Theft Ummagine Guide** | A drawn map and key-tap route for every level. | <a href="https://github.com/fang89/grand-theft-ummagine-guide">Github&nbsp;link</a> |
