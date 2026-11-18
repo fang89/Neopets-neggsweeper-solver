@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NeggSweeper Solver</title>
+<style>
+  :root {
+    --bg: #f5f5f7; --card: #fff; --ink: #1d1d1f; --mute: #6e6e73; --faint: #8e8e93;
+    --line: rgba(0,0,0,.1); --field: rgba(118,118,128,.12); --accent: #007aff;
+    --ok: #34c759; --warn: #ff9500; --bad: #ff3b30;
+    --tile: #e9e9ee; --open: #fff; --n1: #1a8f2e; --n2: #0b5cd5; --n3: #e0400b; --n4: #7a1fa2; --n5: #a0522d; --n6: #00838f; --n7: #333; --n8: #777;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #000; --card: #1c1c1e; --ink: #f5f5f7; --mute: #98989d; --faint: #8e8e93;
+      --line: rgba(255,255,255,.12); --field: rgba(118,118,128,.24); --accent: #0a84ff;
+      --ok: #30d158; --warn: #ff9f0a; --bad: #ff453a;
+      --tile: #3a3a3c; --open: #232325; --n1: #4cd964; --n2: #64a8ff; --n3: #ff7a45; --n4: #d58cff; --n5: #e0a070; --n6: #5ad8e6; --n7: #ddd; --n8: #aaa;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #000; --card: #1c1c1e; --ink: #f5f5f7; --mute: #98989d; --faint: #8e8e93;
+    --line: rgba(255,255,255,.12); --field: rgba(118,118,128,.24); --accent: #0a84ff;
+    --ok: #30d158; --warn: #ff9f0a; --bad: #ff453a;
+    --tile: #3a3a3c; --open: #232325; --n1: #4cd964; --n2: #64a8ff; --n3: #ff7a45; --n4: #d58cff; --n5: #e0a070; --n6: #5ad8e6; --n7: #ddd; --n8: #aaa;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; padding: 32px 16px 48px; background: var(--bg); color: var(--ink);
+         font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 28px; margin: 0; letter-spacing: -.015em; }
+  header p { color: var(--mute); margin: 4px 0 14px; }
+  .card { background: var(--card); border: .5px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+  .sh { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .sh h2 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+  .sn { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 700;
+        background: var(--accent); color: #fff; }
+  kbd { font: 12px ui-monospace, Menlo, monospace; background: var(--field); border-radius: 5px; padding: 1px 6px; white-space: nowrap; }
+  .tiny { color: var(--faint); font-size: 12px; }
+  .muted { color: var(--mute); font-size: 13px; }
+  button, a.btn { font: inherit; font-weight: 600; border: 0; border-radius: 10px; padding: 9px 16px; cursor: pointer;
+           background: var(--accent); color: #fff; text-decoration: none; display: inline-block; }
+  button.ghost { background: var(--field); color: var(--accent); }
+  button.small, a.small { padding: 5px 12px; font-size: 13px; border-radius: 8px; }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 1px; }
+  a.bm { display: inline-block; padding: 9px 16px; border-radius: 10px; font-weight: 600; font-size: 15px;
+         text-decoration: none; color: #fff; background: var(--warn); cursor: grab;
+         box-shadow: 0 2px 8px color-mix(in srgb, var(--warn) 40%, transparent); }
+  ol.bmsteps { margin: 0; padding: 0; list-style: none; counter-reset: b; }
+  ol.bmsteps li { counter-increment: b; display: flex; align-items: center; gap: 10px 12px; flex-wrap: wrap; padding: 10px 0 10px 34px; position: relative;
+    border-top: .5px solid var(--line); }
+  ol.bmsteps li:first-child { border-top: 0; }
+  ol.bmsteps li > div { flex: 1 1 220px; }
+  ol.bmsteps li::before { content: counter(b); position: absolute; left: 0; top: 11px; width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; background: var(--warn); }
+  .keyrow { display: flex; align-items: center; gap: 6px 14px; flex-wrap: wrap; margin-top: 12px; font-size: 13px; color: var(--mute); }
+  .keyrow span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 16px; height: 16px; border-radius: 4px; background: var(--tile); flex: none; }
+  .sw.safe { box-shadow: inset 0 0 0 3px var(--ok); } .sw.trap { box-shadow: inset 0 0 0 3px var(--bad); opacity: .6; } .sw.guess { box-shadow: inset 0 0 0 3px var(--warn); }
+  .tip { margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: var(--field); font-size: 13px; color: var(--mute); }
+  .tip summary { cursor: pointer; color: var(--ink); font-weight: 600; }
+  .tip p { margin: 8px 0 0; } .tip b { color: var(--ink); }
+
+  a.gh { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 24px; padding: 9px 16px 9px 13px; border-radius: 999px;
+    background: var(--ink); color: var(--bg); font-weight: 600; font-size: 15px; text-decoration: none; transition: transform .12s; }
+  a.gh:hover { transform: translateY(-1px); }
+  a.gh svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+  a.gh .go { opacity: .6; font-weight: 400; }
+  footer { color: var(--faint); font-size: 12px; margin-top: 16px; text-align: center; }
+  @media (max-width: 480px) { h1 { font-size: 24px; } .card { padding: 14px; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>NeggSweeper Solver</h1>
+    <p>Shows which neggs are safe on the real game page. It works out the exact odds on every negg and never clicks anything for you. Runs entirely in your browser.</p>
+    <a class="gh" href="https://github.com/fang89/neggsweeper-solver" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Source &amp; notes on GitHub <span class="go">↗</span></a>
+  </header>
+
+  <section class="card">
+    <div class="sh"><h2>Set it up once</h2></div>
+    <ol class="bmsteps">
+      <li><div>Drag this orange button up to your bookmarks bar.<div class="tiny">No bar? Press <kbd class="k-bar">Ctrl+Shift+B</kbd>.</div><div class="tiny" id="bmTip" style="color:var(--warn)"></div></div>
+        <a class="bm" id="bm" href="#" draggable="true">NeggSweeper Helper</a></li>
+      <li><div>Open NeggSweeper.</div><a class="btn small" id="openGame" href="https://www.neopets.com/games/neggsweeper/neggsweeper.phtml" target="_blank" rel="noopener">Open the game ↗</a></li>
+      <li><div>On the game page, click the bookmark once. It keeps working after every click, every win and every new game until you close the tab.</div></li>
+    </ol>
+    <div class="keyrow">
+      <span><i class="sw safe"></i>Safe negg</span>
+      <span><i class="sw trap"></i>Bad negg</span>
+      <span><i class="sw guess"></i>Best guess, when nothing is safe</span>
+    </div>
+    <details class="tip">
+      <summary>How it works</summary>
+      <p>The bookmark reads the board straight off the page after every click. For every way the bad neggs could be hidden that fits all the numbers <b>and</b> the game's Remaining counter, it counts how often each negg is bad. A negg that is never bad is safe; one that is always bad is a bad negg. When no negg is safe, it marks the one least likely to be bad.</p>
+      <p>The card in the corner can also print the chance on every covered negg. The × on the card puts the game back to normal.</p>
+    </details>
+  </section>
+
+  <footer>Unofficial fan tool. Not made by or connected to Neopets.</footer>
+</main>
+
+<script type="text/plain" id="bm-src">(() => {
+'use strict';
+if (window.__nsFollow) return window.__nsFollow(); // already following
+const R = {};
+(function (root) {
+'use strict';
+function parsePage(doc) {
+const text = (doc.body && doc.body.textContent) || '';
+const lost = /You Lose!!!/.test(text);
+const table = Array.from(doc.querySelectorAll('table[bgcolor="black"]'))
+.find(t => /Remaining/.test(t.textContent) && t.querySelector('tr[bgcolor="white"] td img, tr[bgcolor="white"] td font'));
+if (!table) {
+if (doc.querySelector('input[type="submit"][value="Continue Playing"]')) return { state: 'continue' };
+if (doc.querySelector('select[name="game_level"]')) return { state: 'pick' };
+return { state: 'none' };
+}
+const nums = Array.from(table.querySelectorAll('tr[bgcolor="silver"] tr[bgcolor="white"] td b'),
+b => parseInt(b.textContent.replace(/[^0-9]/g, ''), 10));
+const rows = Array.from(table.querySelectorAll(':scope > tbody > tr[bgcolor="white"]'));
+const grid = [], cells = [];
+let live = 0, flagged = 0;
+for (const tr of rows) {
+const g = [], c = [];
+for (const td of tr.querySelectorAll(':scope > td')) {
+const img = td.querySelector('img');
+const font = td.querySelector('font b, b');
+let v = '?';
+if (img) {
+const src = img.getAttribute('src') || '';
+const click = /do_move/.test(img.getAttribute('onclick') || '');
+if (click) { live++; if (!/\/x\/gn\.gif/.test(src)) flagged++; v = 'C'; }
+else if (/badnegg/.test(src)) v = 'T';
+else if (/\/x\/gn\.gif/.test(src)) v = 'C';
+} else if (font) {
+const n = parseInt(font.textContent.trim(), 10);
+if (n >= 0 && n <= 8) v = n;
+} else if (!td.textContent.replace(/\u00a0/g, '').trim()) v = 0;
+g.push(v); c.push(img || td);
+}
+if (g.length) { grid.push(g); cells.push(c); }
+}
+if (!grid.length) return { state: 'none' };
+return {
+state: lost ? 'lost' : live ? 'playing' : 'over',
+grid, cells, table, flagged,
+remaining: Number.isFinite(nums[0]) ? nums[0] : null,
+jackpot: Number.isFinite(nums[1]) ? nums[1] : null,
+};
+}
+const NODE_LIMIT = 3e6;
+function neighbours(r, c, R, C) {
+const out = [];
+for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+if (!dr && !dc) continue;
+const nr = r + dr, nc = c + dc;
+if (nr >= 0 && nr < R && nc >= 0 && nc < C) out.push([nr, nc]);
+}
+return out;
+}
+const LF = [0];
+function lfact(n) { while (LF.length <= n) LF.push(LF[LF.length - 1] + Math.log(LF.length)); return LF[n]; }
+function lcomb(n, k) { return k < 0 || k > n ? -Infinity : lfact(n) - lfact(k) - lfact(n - k); }
+function enumerate(n, cons) {
+const consOf = Array.from({ length: n }, () => []);
+cons.forEach((cn, ci) => cn.idx.forEach(i => consOf[i].push(ci)));
+const need = cons.map(c => c.need), left = cons.map(c => c.idx.length);
+const assign = new Uint8Array(n), out = new Map();
+let nodes = 0, alive = true;
+(function rec(i, traps) {
+if (!alive) return;
+if (++nodes > NODE_LIMIT) { alive = false; return; }
+if (i === n) {
+let e = out.get(traps);
+if (!e) out.set(traps, e = { w: 0, tally: new Float64Array(n) });
+e.w++;
+for (let j = 0; j < n; j++) e.tally[j] += assign[j];
+return;
+}
+for (let v = 0; v <= 1; v++) {
+let ok = true;
+for (const ci of consOf[i]) { const nd = need[ci] - v; if (nd < 0 || nd > left[ci] - 1) { ok = false; break; } }
+if (!ok) continue;
+assign[i] = v;
+for (const ci of consOf[i]) { need[ci] -= v; left[ci]--; }
+rec(i + 1, traps + v);
+for (const ci of consOf[i]) { need[ci] += v; left[ci]++; }
+assign[i] = 0;
+}
+})(0, 0);
+return alive ? out : null;
+}
+function rules(grid) {
+const R = grid.length, C = grid[0].length, known = new Map();
+const key = (r, c) => r * C + c;
+const isNum = v => typeof v === 'number';
+function con(r, c) {
+const unk = []; let need = grid[r][c];
+for (const [nr, nc] of neighbours(r, c, R, C)) {
+const v = grid[nr][nc], k = known.get(key(nr, nc));
+if (v === 'T' || k === 1) need--;
+else if ((v === 'C' || v === '?') && k === undefined) unk.push(key(nr, nc));
+}
+return { unk, need };
+}
+for (let pass = 0, changed = true; changed && pass < 200; pass++) {
+changed = false;
+for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
+if (!isNum(grid[r][c])) continue;
+const a = con(r, c);
+if (a.unk.length && (a.need === 0 || a.need === a.unk.length)) {
+a.unk.forEach(k => known.set(k, a.need ? 1 : 0)); changed = true; continue;
+}
+for (const [r2, c2] of neighbours(r, c, R, C).concat(neighbours(r, c, R, C).flatMap(([x, y]) => neighbours(x, y, R, C)))) {
+if (!isNum(grid[r2][c2]) || (r2 === r && c2 === c)) continue;
+const b = con(r2, c2), sb = new Set(b.unk);
+if (!a.unk.length || a.unk.length >= b.unk.length || !a.unk.every(k => sb.has(k))) continue;
+const sa = new Set(a.unk), only = b.unk.filter(k => !sa.has(k)), d = b.need - a.need;
+if (d === 0 || d === only.length) { only.forEach(k => known.set(k, d ? 1 : 0)); changed = true; }
+}
+}
+}
+return known;
+}
+function solve(grid, remaining) {
+const R = grid.length, C = grid[0].length;
+const key = (r, c) => r * C + c;
+const covered = [];
+for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) if (grid[r][c] === 'C') covered.push([r, c]);
+const prob = new Map();
+const res = { prob, safe: [], traps: [], guess: null, exact: false, trapsLeft: null, covered: covered.length };
+if (!covered.length) return res;
+const shownTraps = grid.flat().filter(v => v === 'T').length;
+const total = remaining == null ? null : covered.length - remaining;
+res.trapsLeft = total;
+const front = new Map(), cons = [];
+for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
+const v = grid[r][c];
+if (typeof v !== 'number') continue;
+let need = v; const cov = [];
+for (const [nr, nc] of neighbours(r, c, R, C)) {
+if (grid[nr][nc] === 'T') need--;
+else if (grid[nr][nc] === 'C') cov.push(key(nr, nc));
+}
+if (!cov.length) continue;
+cons.push({ cov, need });
+for (const k of cov) { if (!front.has(k)) front.set(k, []); front.get(k).push(cons.length - 1); }
+}
+const interior = covered.map(([r, c]) => key(r, c)).filter(k => !front.has(k));
+const bad = grid.flat().some(v => v === '?') || total == null || total < 0 || shownTraps;
+const parent = new Map(); for (const k of front.keys()) parent.set(k, k);
+const find = x => { while (parent.get(x) !== x) { parent.set(x, parent.get(parent.get(x))); x = parent.get(x); } return x; };
+for (const cn of cons) for (const k of cn.cov.slice(1)) parent.set(find(k), find(cn.cov[0]));
+const byRoot = new Map();
+for (const k of front.keys()) { const r = find(k); if (!byRoot.has(r)) byRoot.set(r, []); byRoot.get(r).push(k); }
+const groups = [];
+let exact = !bad;
+for (const members of byRoot.values()) {
+if (!exact) break;
+const inG = new Set(members), order = [], seen = new Set([members[0]]), q = [members[0]];
+while (q.length) {
+const k = q.shift(); order.push(k);
+for (const ci of front.get(k)) for (const k2 of cons[ci].cov) if (inG.has(k2) && !seen.has(k2)) { seen.add(k2); q.push(k2); }
+}
+const index = new Map(order.map((k, i) => [k, i]));
+const gc = [...new Set(order.flatMap(k => front.get(k)))].map(ci => ({ idx: cons[ci].cov.map(k => index.get(k)), need: cons[ci].need }));
+const dist = enumerate(order.length, gc);
+if (!dist || !dist.size) { exact = false; break; }
+groups.push({ order, dist });
+}
+if (exact) {
+const conv = (a, b) => {
+const out = new Map();
+for (const [k1, w1] of a) for (const [k2, e] of b) {
+const k = k1 + k2, w = w1 + Math.log(e.w), o = out.get(k);
+out.set(k, o === undefined ? w : Math.max(o, w) + Math.log1p(Math.exp(-Math.abs(o - w))));
+}
+return out;
+};
+const nInt = interior.length;
+const lse = arr => { const m = Math.max(...arr); return m === -Infinity ? m : m + Math.log(arr.reduce((s, x) => s + Math.exp(x - m), 0)); };
+let all = new Map([[0, 0]]);
+for (const g of groups) all = conv(all, g.dist);
+const terms = [...all].map(([k, w]) => w + lcomb(nInt, total - k));
+const lZ = lse(terms);
+if (lZ === -Infinity) exact = false;
+else {
+let expFront = 0;
+[...all].forEach(([k], i) => { expFront += k * Math.exp(terms[i] - lZ); });
+groups.forEach((g, gi) => {
+let rest = new Map([[0, 0]]);
+groups.forEach((h, hi) => { if (hi !== gi) rest = conv(rest, h.dist); });
+const n = g.order.length, acc = new Float64Array(n), any1 = new Uint8Array(n), any0 = new Uint8Array(n);
+for (const [k, e] of g.dist) {
+const lm = lse([...rest].map(([kr, wr]) => wr + lcomb(nInt, total - k - kr)));
+if (lm === -Infinity) continue; // this many traps here can't fit the total
+for (let j = 0; j < n; j++) {
+if (e.tally[j] > 0) { any1[j] = 1; acc[j] += Math.exp(Math.log(e.tally[j]) + lm - lZ); }
+if (e.tally[j] < e.w) any0[j] = 1;
+}
+}
+g.order.forEach((k, j) => prob.set(k, !any1[j] ? 0 : !any0[j] ? 1 : Math.min(1 - 1e-9, Math.max(1e-9, acc[j]))));
+});
+if (nInt) {
+const ks = [...all.keys()].filter((k, i) => terms[i] > -Infinity);
+const p = ks.every(k => total - k === 0) ? 0 : ks.every(k => total - k === nInt) ? 1
+: Math.min(1 - 1e-9, Math.max(1e-9, (total - expFront) / nInt));
+interior.forEach(k => prob.set(k, p));
+}
+}
+}
+if (!exact) {
+prob.clear();
+const known = rules(grid);
+const p0 = total != null && total >= 0 ? total / covered.length : 0.2;
+for (const [r, c] of covered) { const k = key(r, c); prob.set(k, known.has(k) ? known.get(k) : p0); }
+}
+res.exact = exact;
+for (const [r, c] of covered) {
+const p = prob.get(key(r, c));
+if (p === 0) res.safe.push([r, c]); else if (p === 1) res.traps.push([r, c]);
+}
+if (!res.safe.length) {
+let best = null, bk = null;
+for (const [r, c] of covered) {
+const p = prob.get(key(r, c));
+if (p === 1) continue;
+const nb = neighbours(r, c, R, C).filter(([x, y]) => grid[x][y] === 'C').length;
+const k = [Math.round(p * 1e9), nb];
+if (!bk || k[0] < bk[0] || (k[0] === bk[0] && k[1] < bk[1])) { bk = k; best = [r, c]; }
+}
+res.guess = best;
+}
+return res;
+}
+root.Negg = { parsePage, solve, neighbours };
+})(R);
+const N = R.Negg;
+const GAME_URL = 'https://www.neopets.com/games/neggsweeper/neggsweeper.phtml';
+const PREF = 'neggHelperOdds';
+let showOdds = false;
+try { showOdds = localStorage.getItem(PREF) === '1'; } catch (e) {}
+const old = document.getElementById('ns-helper');
+if (old) old.remove();
+const host = document.createElement('div');
+host.id = 'ns-helper';
+const shadow = host.attachShadow({ mode: 'open' });
+shadow.innerHTML = `<style>
+:host { all: initial; }
+.card { position: fixed; top: 16px; right: 16px; z-index: 2147483647; width: 280px;
+display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px;
+font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+color: #1d1d1f; background: rgba(255,255,255,.95); border: .5px solid rgba(0,0,0,.12);
+border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.16), 0 1px 3px rgba(0,0,0,.08); }
+.dot { flex: none; width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; }
+.txt { flex: 1; min-width: 0; }
+.t { font-weight: 600; font-size: 14px; }
+.t[data-tone=warn] b { color: #c76a00; }
+.s { color: #6e6e73; font-size: 12px; margin-top: 2px; }
+.m { color: #6e6e73; font-size: 12px; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.o { margin-top: 8px; font: 600 12px/1 inherit; border: 0; border-radius: 8px; padding: 6px 10px; cursor: pointer;
+background: rgba(118,118,128,.14); color: #007aff; }
+.x { flex: none; border: 0; background: none; font: 18px/1 sans-serif; color: #8e8e93; cursor: pointer; padding: 0 2px; }
+@media (prefers-color-scheme: dark) {
+.card { color: #f5f5f7; background: rgba(36,36,38,.95); border-color: rgba(255,255,255,.12); }
+.s, .m { color: #98989d; } .t[data-tone=warn] b { color: #ffb340; } .o { background: rgba(118,118,128,.28); color: #0a84ff; }
+}</style><div class="card"><span class="dot"></span><div class="txt"><div class="t"></div><div class="s"></div><div class="m"></div><button class="o" hidden></button></div><button class="x" title="Stop helping">×</button></div>`;
+(document.body || document.documentElement).append(host);
+const $ = s => shadow.querySelector(s);
+const TONE = { ok: '#34c759', warn: '#ff9500', bad: '#ff3b30', info: '#007aff' };
+function say(tone, title, sub, meta) {
+$('.dot').style.background = TONE[tone];
+const t = $('.t'); t.dataset.tone = tone; t.textContent = ''; t.append(...[].concat(title));
+$('.s').textContent = sub || '';
+$('.m').textContent = meta || '';
+$('.o').hidden = !meta;
+}
+const bold = s => { const b = document.createElement('b'); b.textContent = s; return b; };
+const pct = p => p < 0.005 ? '<1%' : Math.round(p * 100) + '%';
+if (!/(^|\.)neopets\.com$/.test(location.hostname))
+return say('warn', 'Not the game page', 'Open NeggSweeper on neopets.com, then click this bookmark there.');
+const frame = document.createElement('iframe');
+frame.id = 'ns-frame';
+frame.src = GAME_URL; // a clean GET shows the game in progress
+frame.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;border:0;margin:0;z-index:2147483646;background:#fff';
+document.documentElement.style.overflow = 'hidden';
+$('.x').onclick = () => { location.href = GAME_URL; }; // back to the plain page
+$('.o').onclick = () => {
+showOdds = !showOdds;
+try { localStorage.setItem(PREF, showOdds ? '1' : '0'); } catch (e) {}
+show();
+};
+const doc = () => { try { return frame.contentDocument; } catch (e) { return null; } };
+function show() {
+const d = doc();
+if (!d || !d.body) return say('warn', 'Left the game', 'Go back to NeggSweeper and click this bookmark again.');
+let pz;
+try { pz = N.parsePage(d); } catch (e) { return say('bad', 'Could not read the board', String(e && e.message || e)); }
+if (pz.state === 'pick') return say('info', 'Pick a level and press Play', 'The safe neggs light up as soon as the board appears.');
+if (pz.state === 'continue') return say('info', 'Press “Continue Playing”', '');
+if (pz.state === 'lost') return say('bad', 'Bad negg – game over', 'Pick a level and press Play Again. The helper keeps running.');
+if (pz.state !== 'playing') {
+if (/neggsweeper/.test(d.location.pathname)) return say('info', 'Waiting for a board', '');
+return say('warn', 'Left the game', 'Go back to NeggSweeper: the helper starts again by itself there.');
+}
+const res = N.solve(pz.grid, pz.remaining);
+mark(d, pz, res);
+const meta = `${pz.remaining} safe neggs left · ${res.trapsLeft} bad · jackpot ${pz.jackpot}`;
+$('.o').textContent = showOdds ? 'Hide the odds' : 'Show the odds on every negg';
+const untouched = pz.grid.every(r => r.every(v => v === 'C'));
+if (res.safe.length)
+return say('ok', [bold(String(res.safe.length)), res.safe.length === 1 ? ' safe negg' : ' safe neggs'],
+'Green = safe, click any of them. Red = bad negg, leave it.' + (res.exact ? '' : ' (Board too open to work out fully: shown what is certain.)'), meta);
+if (!res.guess) return say('info', 'Nothing to click', '', meta);
+const [r, c] = res.guess, p = res.prob.get(r * pz.grid[0].length + c);
+say('warn', untouched ? ['First click: ', bold(pct(p)), ' risk anywhere'] : ['No sure negg – best guess ', bold(pct(p)), ' risk'],
+untouched ? 'Every negg is equally risky. The orange corner opens the most board when it is safe.'
+: 'Orange = the lowest chance of a bad negg. Every other covered negg is as risky or worse.', meta);
+}
+function mark(d, pz, res) {
+if (!d.getElementById('ns-helper-style')) {
+const style = d.createElement('style');
+style.id = 'ns-helper-style';
+style.textContent = `
+td.ns-cell { position: relative; }
+img.ns-safe { outline: 3px solid #34c759 !important; outline-offset: -3px; background: rgba(52,199,89,.35); }
+img.ns-trap { outline: 3px solid #ff3b30 !important; outline-offset: -3px; opacity: .45; }
+img.ns-guess { outline: 3px solid #ff9500 !important; outline-offset: -3px;
+animation: ns-pulse .8s ease-in-out infinite alternate; }
+@keyframes ns-pulse { to { outline-color: rgba(255,149,0,.2); } }
+span.ns-odds { position: absolute; left: 0; right: 0; bottom: 1px; text-align: center; pointer-events: none;
+font: 700 9px/1 -apple-system, Arial, sans-serif; color: #fff; text-shadow: 0 0 2px #000, 0 0 2px #000; }`;
+(d.head || d.documentElement).append(style);
+}
+d.querySelectorAll('img.ns-safe, img.ns-trap, img.ns-guess').forEach(i => i.classList.remove('ns-safe', 'ns-trap', 'ns-guess'));
+d.querySelectorAll('span.ns-odds').forEach(s => s.remove());
+const C = pz.grid[0].length, img = (r, c) => pz.cells[r] && pz.cells[r][c];
+res.safe.forEach(([r, c]) => img(r, c) && img(r, c).classList.add('ns-safe'));
+res.traps.forEach(([r, c]) => img(r, c) && img(r, c).classList.add('ns-trap'));
+if (res.guess && img(...res.guess)) img(...res.guess).classList.add('ns-guess');
+if (showOdds) pz.grid.forEach((row, r) => row.forEach((v, c) => {
+const el = img(r, c), p = res.prob.get(r * C + c);
+if (v !== 'C' || !el || p == null || p === 0 || p === 1) return;
+const td = el.closest('td'), s = d.createElement('span');
+td.classList.add('ns-cell'); s.className = 'ns-odds'; s.textContent = pct(p);
+td.append(s);
+}));
+}
+say('info', 'Loading the game…', '');
+frame.addEventListener('load', show);
+document.body.append(frame);
+window.__nsFollow = show;
+})();</script>
+<script>(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+  if (mac) document.querySelectorAll('.k-bar').forEach(k => { k.textContent = '⌘+Shift+B'; });
+
+  // ------------------------------------------------------------ bookmark
+  const bm = $('bm');
+  bm.href = 'javascript:' + encodeURIComponent($('bm-src').textContent);
+  bm.addEventListener('click', e => {
+    e.preventDefault();
+    $('bmTip').textContent = 'Don’t click it here: drag it to your bookmarks bar, then click it on the game page.';
+  });
+
+})();
+</script>
+</body>
+</html>
