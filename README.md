@@ -118,7 +118,3 @@ card instead of guessing.
 
 **One file.** The whole solver is inside the bookmark itself, so it runs on the game page with
 nothing to load. The solver page is a single ~25 KB HTML file.
-
----
-
-Unofficial fan tool. Not made by or connected to Neopets.
