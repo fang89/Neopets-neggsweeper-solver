@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://fang89.github.io/neggsweeper-solver/"><img src="docs/open.svg" alt="▶ Open the solver" width="420"></a>
+  <a href="https://fang89.github.io/Neopets-neggsweeper-solver/"><img src="docs/open.svg" alt="▶ Open the solver" width="420"></a>
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@ own browser, nothing is sent anywhere, and it never clicks for you.
 
 | | Step | What you do |
 |:-:|---|---|
-| **1** | **Add the bookmark** | Open the [solver page](https://fang89.github.io/neggsweeper-solver/) and drag the orange **NeggSweeper Helper** button to your bookmarks bar (favorites bar in Edge). No bar? <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>, or <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> on a Mac. |
+| **1** | **Add the bookmark** | Open the [solver page](https://fang89.github.io/Neopets-neggsweeper-solver/) and drag the orange **NeggSweeper Helper** button to your bookmarks bar (favorites bar in Edge). No bar? <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>, or <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> on a Mac. |
 | **2** | **Open the game** | Go to NeggSweeper on neopets.com and start a board. |
 | **3** | **Click the bookmark once** | The neggs light up, and the one to click next glows with a label pointing at it. It keeps working after every click, every win and every new game until you close the tab. |
 
@@ -39,7 +39,7 @@ Its **×** puts the page back to normal. Flagging a negg (<kbd>Ctrl</kbd>-click,
 
 Works in Chrome, Edge and Firefox, on Windows and Mac.
 
-<p align="center"><a href="https://fang89.github.io/neggsweeper-solver/"><img src="docs/open.svg" alt="▶ Open the solver" width="320"></a></p>
+<p align="center"><a href="https://fang89.github.io/Neopets-neggsweeper-solver/"><img src="docs/open.svg" alt="▶ Open the solver" width="320"></a></p>
 
 > The helper only colours neggs. It never clicks for you and never sends anything.
 
