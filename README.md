@@ -11,6 +11,7 @@
   &nbsp;·&nbsp; <a href="#how-it-solves-a-board">How it works</a>
   &nbsp;·&nbsp; <a href="#how-well-it-plays">How well it plays</a>
   &nbsp;·&nbsp; <a href="#how-its-built">How it's built</a>
+  &nbsp;·&nbsp; <a href="#more-neopets-solvers">More solvers</a>
 </p>
 
 ---
@@ -18,6 +19,13 @@
 **NeggSweeper Solver** marks every negg on a Neopets NeggSweeper board as safe, bad, or
 "best bet", right on the game page. It's one bookmark. The odds are worked out exactly in your
 own browser, nothing is sent anywhere, and it never clicks for you.
+
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/divider-dark.svg"><img src="docs/divider.svg" alt="" width="100%"></picture></p>
+
+<h1 align="center">⚙️ Under the hood</h1>
+<p align="center"><i>How to use it · how it solves a board · how well it plays · how it's built</i></p>
+
+---
 
 ## How to use
 
@@ -42,6 +50,8 @@ Works in Chrome, Edge and Firefox, on Windows and Mac.
 <p align="center"><a href="https://fang89.github.io/Neopets-neggsweeper-solver/"><img src="docs/open.svg" alt="▶ Open the solver" width="320"></a></p>
 
 > The helper only colours neggs. It never clicks for you and never sends anything.
+
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/divider-dark.svg"><img src="docs/divider.svg" alt="" width="100%"></picture></p>
 
 ## How it solves a board
 
@@ -78,6 +88,8 @@ is never a guess. When nothing is green, the orange negg has the lowest chance. 
 the negg with the fewest covered neighbours, since a corner opens up the most board when it
 turns out safe.
 
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/divider-dark.svg"><img src="docs/divider.svg" alt="" width="100%"></picture></p>
+
 ## How well it plays
 
 <img src="docs/bench.svg" alt="Win rate on 10,000 Hard boards: this solver 40.7%, sure-thing rules with a corner guess 23.7%, with a random guess 16.4%" width="100%">
@@ -89,6 +101,8 @@ games against 23.7% for the usual patterns.
 
 In the tests (1,000 more simulated games and 53 real saved boards) it never called a bad negg
 safe or a safe negg bad, and the slowest board took 2 ms to solve.
+
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/divider-dark.svg"><img src="docs/divider.svg" alt="" width="100%"></picture></p>
 
 ## How it's built
 
@@ -118,3 +132,15 @@ card instead of guessing.
 
 **One file.** The whole solver is inside the bookmark itself, so it runs on the game page with
 nothing to load. The solver page is a single ~45 KB HTML file.
+
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/divider-dark.svg"><img src="docs/divider.svg" alt="" width="100%"></picture></p>
+
+## More Neopets solvers
+
+My other Neopets tools. All free; none of them plays for you or sends a score.
+
+| Tool | What it does | |
+|---|---|:-:|
+| **Sewage Surfer Solver** | Shows where each pipe goes, one move at a time, and when to discard, press Start Flow or restart. | <a href="https://fang89.github.io/Neopets-sewagesurfer-solver/">▶ Open</a> · <a href="https://github.com/fang89/Neopets-sewagesurfer-solver">Source</a> |
+| **ShapeShifter Solver** | Paste the board, get the answer, see where each piece goes. | <a href="https://fang89.github.io/Neopets-shapeshifter-solver/">▶ Open</a> · <a href="https://github.com/fang89/Neopets-shapeshifter-solver">Source</a> |
+| **Grand Theft Ummagine Guide** | A drawn map and key-tap route for every level. | <a href="https://github.com/fang89/grand-theft-ummagine-guide">Source</a> |
