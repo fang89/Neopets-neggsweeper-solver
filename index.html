@@ -52,6 +52,12 @@
   .tile.trap::before { background: radial-gradient(circle at 35% 30%, #fff5 0 18%, transparent 19%), #7f1d1d; }
   @keyframes in  { from { background: rgba(255,255,255,.13); } to { background: var(--ok); } }
   @keyframes inb { from { background: rgba(255,255,255,.13); } to { background: var(--bad); } }
+  .tile.next { z-index: 1; box-shadow: 0 0 0 3px #fff, 0 0 18px 6px rgba(34,197,94,.9); }
+  .tile.next::after { content: "Click"; position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%);
+    background: #16a34a; color: #fff; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 7px; white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(0,0,0,.3); animation: bob .6s ease-in-out infinite alternate; }
+  @keyframes bob { to { transform: translate(-50%, -5px); } }
+  .demo.odds .tile.next::after { display: none; }
   .tile .p { position: absolute; inset: auto 0 1px 0; text-align: center; font-size: 10px; font-weight: 800; color: #fff;
              text-shadow: 0 1px 2px #000a; opacity: 0; transition: opacity .2s; }
   .demo.odds .tile .p { opacity: 1; }
@@ -106,7 +112,7 @@
     .tile { width: 27px; height: 27px; font-size: 14px; }
     .tile.c::before { width: 14px; height: 18px; }
   }
-  @media (prefers-reduced-motion: reduce) { .tile.safe, .tile.trap, .sw.guess { animation-duration: 0s; animation-delay: 0s !important; animation-iteration-count: 1; } }
+  @media (prefers-reduced-motion: reduce) { .tile.safe, .tile.trap, .sw.guess, .tile.next::after { animation-duration: 0s; animation-delay: 0s !important; animation-iteration-count: 1; } }
 </style>
 </head>
 <body>
@@ -152,7 +158,7 @@
         <div class="num">3</div>
         <h3>Click the bookmark</h3>
         <div class="pic"><div class="mini"><i class="o"></i><i class="o"></i><i></i><i></i><i></i><i class="o"></i><i class="r"></i><i></i><i></i><i></i><i class="o"></i><i class="g"></i><i class="g"></i><i></i><i></i></div></div>
-        <p>Once, on the game page. The neggs light up, and stay up to date after every click, win and new game until you close the tab.</p>
+        <p>Once, on the game page. The negg to click next glows, with a label pointing at it. It updates after every click, win and new game until you close the tab.</p>
       </div>
     </div>
     <div class="key">
@@ -413,7 +419,7 @@ host.id = 'ns-helper';
 const shadow = host.attachShadow({ mode: 'open' });
 shadow.innerHTML = `<style>
 :host { all: initial; }
-.card { position: fixed; top: 16px; right: 16px; z-index: 2147483647; width: 280px;
+.card { position: fixed; bottom: 16px; right: 16px; z-index: 2147483647; width: 280px;
 display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px;
 font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 color: #1d1d1f; background: rgba(255,255,255,.95); border: .5px solid rgba(0,0,0,.12);
@@ -421,7 +427,7 @@ border-radius: 14px; box-shadow: 0 12px 32px rgba(0,0,0,.16), 0 1px 3px rgba(0,0
 .dot { flex: none; width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; }
 .txt { flex: 1; min-width: 0; }
 .t { font-weight: 600; font-size: 14px; }
-.t[data-tone=warn] b { color: #c76a00; }
+.t[data-tone=warn] b { color: #c76a00; } .t[data-tone=ok] b { color: #1f9d45; }
 .s { color: #6e6e73; font-size: 12px; margin-top: 2px; }
 .m { color: #6e6e73; font-size: 12px; margin-top: 6px; font-variant-numeric: tabular-nums; }
 .o { margin-top: 8px; font: 600 12px/1 inherit; border: 0; border-radius: 8px; padding: 6px 10px; cursor: pointer;
@@ -429,7 +435,7 @@ background: rgba(118,118,128,.14); color: #007aff; }
 .x { flex: none; border: 0; background: none; font: 18px/1 sans-serif; color: #8e8e93; cursor: pointer; padding: 0 2px; }
 @media (prefers-color-scheme: dark) {
 .card { color: #f5f5f7; background: rgba(36,36,38,.95); border-color: rgba(255,255,255,.12); }
-.s, .m { color: #98989d; } .t[data-tone=warn] b { color: #ffb340; } .o { background: rgba(118,118,128,.28); color: #0a84ff; }
+.s, .m { color: #98989d; } .t[data-tone=warn] b { color: #ffb340; } .t[data-tone=ok] b { color: #4cd964; } .o { background: rgba(118,118,128,.28); color: #0a84ff; }
 }</style><div class="card"><span class="dot"></span><div class="txt"><div class="t"></div><div class="s"></div><div class="m"></div><button class="o" hidden></button></div><button class="x" title="Stop helping">×</button></div>`;
 (document.body || document.documentElement).append(host);
 const $ = s => shadow.querySelector(s);
@@ -476,13 +482,13 @@ pz.jackpot != null && `jackpot ${pz.jackpot}`].filter(Boolean).join(' · ');
 $('.o').textContent = showOdds ? 'Hide the odds' : 'Show the odds on every negg';
 const untouched = pz.grid.every(r => r.every(v => v === 'C'));
 if (res.safe.length)
-return say('ok', [bold(String(res.safe.length)), res.safe.length === 1 ? ' safe negg' : ' safe neggs'],
-'Green = safe, click any of them. Red = bad negg, leave it.' + (res.exact ? '' : ' (Board too open to work out fully: shown what is certain.)'), meta);
+return say('ok', ['Next: click the ', bold('lit green'), ' negg'],
+`${res.safe.length} safe ${res.safe.length === 1 ? 'negg' : 'neggs'} in green, any order. Red = bad negg, leave it.` + (res.exact ? '' : ' (Board too open to work out fully: shown what is certain.)'), meta);
 if (!res.guess) return say('info', 'Nothing to click', '', meta);
 const [r, c] = res.guess, p = res.prob.get(r * pz.grid[0].length + c);
-say('warn', untouched ? ['First click: ', bold(pct(p)), ' risk anywhere'] : ['No sure negg – best guess ', bold(pct(p)), ' risk'],
-untouched ? 'Every negg is equally risky. The orange corner opens the most board when it is safe.'
-: 'Orange = the lowest chance of a bad negg. Every other covered negg is as risky or worse.', meta);
+say('warn', ['Next: guess the ', bold('lit orange'), ' negg (', bold(pct(p)), ' risk)'],
+untouched ? 'First click: every negg is equally risky, and a corner opens the most board when it is safe.'
+: 'Nothing is certain. It has the lowest chance of a bad negg; every other covered negg is as risky or worse.', meta);
 }
 function mark(d, pz, res) {
 if (!d.getElementById('ns-helper-style')) {
@@ -492,19 +498,38 @@ style.textContent = `
 td.ns-cell { position: relative; }
 img.ns-safe { outline: 3px solid #34c759 !important; outline-offset: -3px; background: rgba(52,199,89,.35); }
 img.ns-trap { outline: 3px solid #ff3b30 !important; outline-offset: -3px; opacity: .45; }
-img.ns-guess { outline: 3px solid #ff9500 !important; outline-offset: -3px;
-animation: ns-pulse .8s ease-in-out infinite alternate; }
-@keyframes ns-pulse { to { outline-color: rgba(255,149,0,.2); } }
+img.ns-guess { outline: 3px solid #ff9500 !important; outline-offset: -3px; }
+img.ns-next { position: relative; z-index: 2147483000; outline-width: 5px !important; outline-offset: 2px !important; border-radius: 4px;
+box-shadow: 0 0 0 3px #fff, 0 0 20px 8px var(--ns-glow) !important;
+animation: ns-pulse .7s ease-in-out infinite alternate; }
+img.ns-safe.ns-next { --ns-glow: rgba(52,199,89,.9); }
+img.ns-guess.ns-next { --ns-glow: rgba(255,149,0,.9); }
+@keyframes ns-pulse { to { box-shadow: 0 0 0 3px #fff, 0 0 30px 14px var(--ns-glow); } }
+#ns-arrow { position: absolute; z-index: 2147483001; pointer-events: none; transform: translate(-50%, -100%);
+display: flex; flex-direction: column; align-items: center;
+font: 800 16px/1.1 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #fff;
+animation: ns-bob .6s ease-in-out infinite alternate; }
+#ns-arrow.below { transform: translate(-50%, 0); flex-direction: column-reverse; }
+#ns-arrow b { background: var(--ns-c); padding: 6px 12px; border-radius: 10px; white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+#ns-arrow i { font-style: normal; font-size: 30px; color: var(--ns-c); text-shadow: 0 2px 6px rgba(0,0,0,.35); margin-top: -4px; }
+#ns-arrow.below i { margin: 0 0 -4px; }
+@keyframes ns-bob { to { margin-top: -8px; } }
 span.ns-odds { position: absolute; left: 0; right: 0; bottom: 1px; text-align: center; pointer-events: none;
 font: 700 9px/1 -apple-system, Arial, sans-serif; color: #fff; text-shadow: 0 0 2px #000, 0 0 2px #000; }`;
 (d.head || d.documentElement).append(style);
 }
-d.querySelectorAll('img.ns-safe, img.ns-trap, img.ns-guess').forEach(i => i.classList.remove('ns-safe', 'ns-trap', 'ns-guess'));
-d.querySelectorAll('span.ns-odds').forEach(s => s.remove());
+d.querySelectorAll('img.ns-safe, img.ns-trap, img.ns-guess').forEach(i => i.classList.remove('ns-safe', 'ns-trap', 'ns-guess', 'ns-next'));
+d.querySelectorAll('span.ns-odds, #ns-arrow').forEach(s => s.remove());
 const C = pz.grid[0].length, img = (r, c) => pz.cells[r] && pz.cells[r][c];
 res.safe.forEach(([r, c]) => img(r, c) && img(r, c).classList.add('ns-safe'));
 res.traps.forEach(([r, c]) => img(r, c) && img(r, c).classList.add('ns-trap'));
 if (res.guess && img(...res.guess)) img(...res.guess).classList.add('ns-guess');
+const next = res.safe[0] || res.guess, el = next && img(...next);
+if (el) {
+el.classList.add('ns-next');
+const p = res.prob.get(next[0] * C + next[1]);
+pointAt(d, el, res.safe.length ? 'Click: safe' : `Best guess · ${pct(p)} risk`, res.safe.length ? '#28a745' : '#f08000');
+}
 if (showOdds) pz.grid.forEach((row, r) => row.forEach((v, c) => {
 const el = img(r, c), p = res.prob.get(r * C + c);
 if (v !== 'C' || !el || p == null || p === 0 || p === 1) return;
@@ -512,6 +537,18 @@ const td = el.closest('td'), s = d.createElement('span');
 td.classList.add('ns-cell'); s.className = 'ns-odds'; s.textContent = pct(p);
 td.append(s);
 }));
+}
+function pointAt(d, el, label, colour) {
+const win = d.defaultView, r = el.getBoundingClientRect(), below = r.top < 70;
+const a = d.createElement('div'), b = d.createElement('b'), i = d.createElement('i');
+a.id = 'ns-arrow'; if (below) a.className = 'below';
+a.style.setProperty('--ns-c', colour);
+b.textContent = label; i.textContent = below ? '▲' : '▼';
+a.append(b, i);
+a.style.left = (r.left + win.scrollX + r.width / 2) + 'px';
+a.style.top = (below ? r.bottom + win.scrollY + 8 : r.top + win.scrollY - 8) + 'px';
+d.body.append(a);
+if (r.top < 0 || r.bottom > win.innerHeight) try { el.scrollIntoView({ block: 'center' }); } catch (e) {}
 }
 say('info', 'Loading the game…', '');
 frame.addEventListener('load', show);
@@ -826,6 +863,7 @@ window.__nsFollow = show;
       const p = res.prob.get(r * C + c);
       t.classList.add('c');
       if (p === 0) t.classList.add('safe'); else if (p === 1) t.classList.add('trap');
+      if (res.safe[0] && res.safe[0][0] === r && res.safe[0][1] === c) t.classList.add('next');
       if (p === 0 || p === 1) t.style.setProperty('--d', (0.4 + 0.12 * order++) + 's');
       else {
         const s = document.createElement('span');

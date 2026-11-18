@@ -25,7 +25,7 @@ own browser, nothing is sent anywhere, and it never clicks for you.
 |:-:|---|---|
 | **1** | **Add the bookmark** | Open the [solver page](https://fang89.github.io/neggsweeper-solver/) and drag the orange **NeggSweeper Helper** button to your bookmarks bar (favorites bar in Edge). No bar? <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>, or <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> on a Mac. |
 | **2** | **Open the game** | Go to NeggSweeper on neopets.com and start a board. |
-| **3** | **Click the bookmark once** | The neggs light up. It keeps working after every click, every win and every new game until you close the tab. |
+| **3** | **Click the bookmark once** | The neggs light up, and the one to click next glows with a label pointing at it. It keeps working after every click, every win and every new game until you close the tab. |
 
 | Colour | Meaning |
 |:-:|---|
